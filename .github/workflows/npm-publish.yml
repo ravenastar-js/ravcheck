@@ -29,6 +29,11 @@ jobs:
         run: |
           npm install
 
+      - name: 🔧 Fix package.json issues
+        run: |
+          npm pkg fix
+          echo "✅ package.json corrigido"
+          
       - name: 🔧 Configure Git
         run: |
           git config --global user.name "GitHub Actions"

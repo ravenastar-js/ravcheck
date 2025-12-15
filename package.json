@@ -20,20 +20,22 @@
     "scanner",
     "security-tools"
   ],
-  "author": "ravenastar-js",
   "license": "MIT",
-  "homepage": "https://github.com/ravenastar-js/",
+  "homepage": "https://github.com/ravenastar-js/ravcheck#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ravenastar-js/ravcheck.git"
+    "url": "git+https://github.com/ravenastar-js/ravcheck.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ravenastar-js/ravcheck/issues"
   },
   "dependencies": {
+    "boxen": "^5.1.2",
     "chalk": "^4.1.2",
     "crypto-js": "^4.1.1",
     "figlet": "^1.6.0",
     "inquirer": "^8.2.6",
-    "node-fetch": "^2.7.0",
-    "boxen": "^5.1.2"
+    "node-fetch": "^2.7.0"
   },
   "engines": {
     "node": ">=14.0.0"
@@ -44,6 +46,10 @@
     "data",
     "lib",
     "package.json",
-    "README.md"
-  ]
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
