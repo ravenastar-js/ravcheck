@@ -4,7 +4,7 @@
   "description": "⚙️ CLI/NPM para envio automatizado de URLs para urlscan.io via API.",
   "main": "lib/index.js",
   "bin": {
-    "ravcheck": "./bin/cli.js"
+    "ravcheck": "bin/cli.js"
   },
   "scripts": {
     "start": "node ./bin/cli.js",
