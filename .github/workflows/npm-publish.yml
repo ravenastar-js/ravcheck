@@ -27,7 +27,7 @@ jobs:
 
       - name: 📦 Install dependencies
         run: |
-          npm ci --only=production
+          npm install
 
       - name: 🔧 Configure Git
         run: |
