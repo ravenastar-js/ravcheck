@@ -1,0 +1,41 @@
+# Arquivos de configuração sensíveis do RAVCHECK
+auth/key.json
+
+# Logs gerados pelo aplicativo
+logs/
+*.log
+
+# Arquivos de ambiente
+.env
+.env.local
+
+# Dependências do Node.js
+node_modules/
+
+# Cache do npm/yarn
+.npm
+.yarn/
+.yarn.lock
+package-lock.json
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+*.backup
+
+# Arquivos de pacote npm
+*.tgz

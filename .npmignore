@@ -1,0 +1,54 @@
+# Arquivos de desenvolvimento e IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Configurações de build e desenvolvimento
+webpack.config.js
+rollup.config.js
+.eslintrc.js
+.prettierrc
+tsconfig.json
+
+# Configurações do Git
+.git/
+.gitattributes
+.gitignore
+.gitmodules
+
+# CI/CD
+.travis.yml
+.github/
+.gitlab-ci.yml
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.example
+
+# Logs (gerados em runtime)
+logs/
+
+# Configurações específicas do usuário
+auth/key.json                    # Chave API do usuário
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Documentação extra
+CHANGELOG.md
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+SECURITY.md
+
+# Arquivos de backup
+*.bak
+*.backup
+
+# outros
+.github/
+package-lock.json
+node_modules/

@@ -1,0 +1,31 @@
+ravcheck/
+├── auth/
+│   ├── index.js
+│   └── key.json
+├── bin/
+│   └── cli.js
+├── data/
+│   └── rate-limit-free.js
+├── lib/
+│   ├── config/
+│   │   ├── colors.js
+│   │   └── fixedtags.txt
+│   ├── utils/
+│   │   ├── box.js
+│   │   ├── logger.js
+│   │   ├── logManager.js
+│   │   └── packageInfo.js
+│   ├── index.js
+│   └── ui.js
+├── logs/
+│   ├── erros/
+│   ├── sucesso/
+│   ├── csv/
+│   ├── json/
+│   ├── tmp/
+│   ├── debug/
+│   └── relatorios/
+├── links.txt
+├── tags.txt
+├── package.json
+└── README.md

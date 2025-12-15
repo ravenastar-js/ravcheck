@@ -1,0 +1,179 @@
+name: 🚀 RAVCHECK - Publish to npm
+
+on:
+  push:
+    branches: [ main ]
+  release:
+    types: [ published ]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🛠️ Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: ⎔ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: 📦 Install dependencies
+        run: |
+          npm ci --only=production
+
+      - name: 🔧 Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: 🏷️ Get current version
+        id: current_version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "📋 Versão atual: $CURRENT_VERSION"
+
+      - name: 🔢 Calculate next version
+        id: next_version
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          echo "📦 Nome do pacote: $PACKAGE_NAME"
+          
+          # Verifica se é um release manual
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            NEW_VERSION="${{ github.event.release.tag_name }}"
+            echo "🎯 Versão do release: $NEW_VERSION"
+          else
+            # Publicação automática na main
+            if npm view $PACKAGE_NAME version > /dev/null 2>&1; then
+              LATEST_NPM=$(npm view $PACKAGE_NAME version)
+              echo "📦 Última versão no npm: $LATEST_NPM"
+              
+              # Incrementa patch version
+              IFS='.' read -ra VERSION_PARTS <<< "$LATEST_NPM"
+              MAJOR=${VERSION_PARTS[0]}
+              MINOR=${VERSION_PARTS[1]}
+              PATCH=${VERSION_PARTS[2]}
+              NEW_PATCH=$((PATCH + 1))
+              NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+            else
+              # Primeira publicação
+              NEW_VERSION="${{ steps.current_version.outputs.current_version }}"
+            fi
+          fi
+          
+          echo "🎯 Nova versão: $NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: 🚀 Update version in package.json
+        run: |
+          echo "🔄 Atualizando package.json para: ${{ steps.next_version.outputs.new_version }}"
+          npm version "${{ steps.next_version.outputs.new_version }}" --no-git-tag-version --allow-same-version
+          echo "✅ Versão atualizada"
+
+      - name: 📤 Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: 💾 Commit and push changes
+        if: github.event_name != 'release'
+        run: |
+          if git diff --quiet package.json; then
+            echo "⚠️ Nenhuma mudança no package.json para commitar"
+          else
+            echo "💾 Comitando mudanças..."
+            git add package.json
+            git commit -m "🚀 RAVCHECK: version ${{ steps.next_version.outputs.new_version }} [skip ci]"
+            git push origin main
+            echo "✅ Mudanças commitadas e enviadas"
+          fi
+
+      - name: 🎉 Create GitHub Release
+        if: github.event_name != 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.next_version.outputs.new_version }}
+          name: "🌱 v${{ steps.next_version.outputs.new_version }}"
+          body: |
+            ## 🚀 RAVCHECK Publicado!
+            
+            **⚙️ CLI/NPM para envio automatizado de URLs para urlscan.io via API.**
+
+            ---
+
+            ### 🚀 Como Instalar
+
+            ```bash
+            # Instalação global (recomendado)
+            npm install -g ravcheck
+
+            # Ou use com npx (sem instalação)
+            npx ravcheck
+            ```
+
+            ### 🎯 Como Usar
+
+            ```bash
+            # Iniciar modo interativo (recomendado)
+            ravcheck
+
+            # Comandos disponíveis após iniciar:
+            # 🔗 Analisar URLs do arquivo links.txt
+            # 🔍 Analisar URL específica
+            # 🏷️ Ver/Editar tags
+            # 📝 Ver/Editar URLs
+            # 🔑 Configurar chave API
+            # 📊 Verificar rate limit
+            # 📁 Gerenciar logs
+            # 🧹 Limpar e sair
+            ```
+
+            ### ⚙️ Configuração Inicial
+
+            1. Execute `ravcheck` pela primeira vez
+            2. Configure sua chave API do urlscan.io no menu
+            3. Adicione URLs em `options/links.txt` (uma por linha)
+            4. Configure tags personalizadas em `options/tags.txt`
+            5. Ajuste visibilidade em `options/scan-visibility.txt`
+
+            ### 📦 Funcionalidades
+
+            - 🔐 Autenticação segura com criptografia AES-256
+            - 📁 Configurações organizadas em pasta `options/`
+            - 🔗 Análise em lote de URLs do arquivo `links.txt`
+            - 🏷️ Sistema de tags flexível (fixas + personalizadas)
+            - 📊 Monitoramento inteligente de rate limit
+            - 📁 Logs organizados por categoria (sucesso/erro/csv/json)
+            - 🔒 Múltiplas opções de visibilidade (public/unlisted/private)
+            - 🤖 User-Agent configurável (default/chrome/firefox/safai/custom)
+            - 🎯 Interface interativa com menus navegáveis
+
+            ---
+
+            **🔗 Links Úteis:**
+            - 📦 [Pacote NPM](https://www.npmjs.com/package/ravcheck)
+            - 💻 [Repositório GitHub](https://github.com/ravenastar-js/ravcheck)
+            - 📖 [Documentação](https://github.com/ravenastar-js/ravcheck#readme)
+
+            **📋 Informações Técnicas:**
+            - 📅 Versão: ${{ steps.next_version.outputs.new_version }}
+            - 🔖 Tag: v${{ steps.next_version.outputs.new_version }}
+            - ⚡ Node.js: >=14.0.0
+            - 📦 Dependências: chalk, inquirer, node-fetch, crypto-js, boxen, figlet
+            - 📄 Licença: MIT
+
+            ---
+
+            **✨ Desenvolvido com 💚 por [RavenaStar](https://ravenastar.link)**
+
+          draft: false
+          prerelease: false

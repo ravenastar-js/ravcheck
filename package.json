@@ -1,0 +1,49 @@
+{
+  "name": "ravcheck",
+  "version": "1.0.0",
+  "description": "⚙️ CLI/NPM para envio automatizado de URLs para urlscan.io via API.",
+  "main": "lib/index.js",
+  "bin": {
+    "ravcheck": "./bin/cli.js"
+  },
+  "scripts": {
+    "start": "node ./bin/cli.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "lint": "echo \"No linter specified\" && exit 0"
+  },
+  "keywords": [
+    "security",
+    "urlscan",
+    "cli",
+    "analysis",
+    "url",
+    "scanner",
+    "security-tools"
+  ],
+  "author": "ravenastar-js",
+  "license": "MIT",
+  "homepage": "https://github.com/ravenastar-js/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ravenastar-js/ravcheck.git"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "crypto-js": "^4.1.1",
+    "figlet": "^1.6.0",
+    "inquirer": "^8.2.6",
+    "node-fetch": "^2.7.0",
+    "boxen": "^5.1.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "auth/index.js",
+    "bin",
+    "data",
+    "lib",
+    "package.json",
+    "README.md"
+  ]
+}
