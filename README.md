@@ -1,3 +1,9 @@
+> [!WARNING]  
+> Esta ferramenta está em fase **BETA** e passará por diversas melhorias ao longo do tempo... Caso identifique alguma falha durante o uso, recomendamos aguardar pelas próximas atualizações, que trarão melhorias e correções...
+
+
+---
+
 <div align="center">
 
 <a href="https://www.npmjs.com/package/ravcheck" target="_blank"><img src="https://img.shields.io/badge/-ravcheck-c40404?style=flat-square&labelColor=c40404&logo=npm&logoColor=white&link=https://www.npmjs.com/package/ravcheck" height="40" /></a>  
