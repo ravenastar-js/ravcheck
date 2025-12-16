@@ -10,6 +10,11 @@ const boxManager = require('../lib/utils/box');
  */
 async function main() {
     try {
+        // Configurar stdin para modo raw (necessário para capturar Enter)
+        if (process.stdin.isTTY) {
+            process.stdin.setRawMode(true);
+        }
+
         // Limpar console e mostrar welcome box imediatamente
         console.clear();
         console.log(boxManager.createWelcomeBox());
@@ -26,9 +31,15 @@ async function main() {
     } catch (error) {
         console.error(colors.error('❌ Erro fatal:'), error.message);
         console.log(colors.muted('\n⏎ Pressione Enter para sair...'));
+
+        // Configuração para capturar Enter e sair
         process.stdin.setRawMode(true);
         process.stdin.resume();
-        process.stdin.on('data', process.exit.bind(process, 1));
+        process.stdin.on('data', (data) => {
+            if (data.toString() === '\r' || data.toString() === '\n') {
+                process.exit(1);
+            }
+        });
     }
 }
 
